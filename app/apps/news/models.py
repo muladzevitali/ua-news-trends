@@ -8,7 +8,7 @@ class GoogleTrend(models.Model):
     title = models.CharField(max_length=1000)
     source = models.CharField(max_length=1000)
     url = models.URLField(unique=True)
-    query = models.CharField(max_length=200)
+    query = models.CharField(max_length=1000)
     trended_at = models.DateField()
 
     created_at = models.DateTimeField(auto_now_add=True)

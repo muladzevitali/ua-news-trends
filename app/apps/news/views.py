@@ -10,7 +10,7 @@ class NewsListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        query_set = self.model.objects.all()
+        query_set = self.model.objects.order_by(self.ordering).all()
         is_trending: str = self.request.GET.get('is_trending', False)
         if self.request.GET.get('is_trending', False) and is_trending.isdigit():
             is_trending = bool(int(is_trending))

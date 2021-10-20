@@ -10,9 +10,8 @@ RUN chown ua_app:ua_app -R  /tmp /app
 USER ua_app
 
 COPY --chown=ua_app:ua_app app/requirements.txt /app
-ARG DEBUG=false
-ENV DEBUG="${DEBUG}" \
-    PYTHONUNBUFFERED="${PYTHONUNBUFFERED}" \
+
+ENV PYTHONUNBUFFERED="${PYTHONUNBUFFERED}" \
     PYTHONPATH="." \
     PATH="${PATH}:/home/ua_app/.local/bin" \
     USER="ua_app"
