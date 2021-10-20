@@ -36,11 +36,11 @@ class UANewsSpider(scrapy.Spider):
     start_urls = ['https://112ua.tv/rsslist']
     __date_format = '%a, %d %b %Y %H:%M:%S %z'
 
-    # def __init__(self, name, **kwargs):
-    #     logger = logging.getLogger('ua_news_spider')
-    #     logger.setLevel(logging.DEBUG)
-    #
-    #     super().__init__(name, **kwargs)
+    def __init__(self, name='UANewsSpider', **kwargs):
+        logger = logging.getLogger('ua_news_spider')
+        logger.setLevel(logging.CRITICAL)
+
+        super().__init__(name, **kwargs)
 
     def parse(self, response, **kwargs):
         rss_feeds = response.xpath('//div[@class="statpage-content"]/p/a/@href').extract()
@@ -49,7 +49,7 @@ class UANewsSpider(scrapy.Spider):
 
     def parse_rss_page(self, request):
         items = request.xpath('//item')
-        print(items)
+
         for item in items:
             news_item = NewsItem()
             news_item['title'] = item.xpath('./title/text()').extract_first()
@@ -63,5 +63,4 @@ class UANewsSpider(scrapy.Spider):
             try:
                 news_item.save()
             except IntegrityError:
-                print('error')
                 continue

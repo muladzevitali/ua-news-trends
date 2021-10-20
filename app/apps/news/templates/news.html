@@ -17,8 +17,14 @@
             Filter
         </button>
         <div class="dropdown-menu">
+             <div class="dropdown-header">Trending</div>
             <a class="dropdown-item" href="?is_trending=0">All</a>
             <a class="dropdown-item" href="?is_trending=1">Trending</a>
+            <div class="dropdown-header">Categories</div>
+            <a class="dropdown-item" href="?category=">All</a>
+            {% for category in categories %}
+                <a class="dropdown-item" href="?category={{ category }}">{{ category|capfirst }}</a>
+            {% endfor %}
         </div>
     </div>
     {% if not news_list %}
