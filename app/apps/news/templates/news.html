@@ -4,12 +4,28 @@
     <title>News</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+
 <div class="container">
+    <div class="dropdown-header">
+        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">
+            Filter
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="?is_trending=0">All</a>
+            <a class="dropdown-item" href="?is_trending=1">Trending</a>
+        </div>
+    </div>
+    {% if not news_list %}
+        <div class="container text-center mr5-l">
+            <h5 class="card-header">No news found</h5>
+        </div>
+    {% endif %}
     {% for news in news_list %}
         <div class="row border" style="margin-top: 2%; padding: 1%">
             <div class="col-sm-4">
@@ -40,6 +56,48 @@
     {% endfor %}
 
 </div>
+<div class="container text-center" style="margin-bottom: 3%;">
+    <nav class="mt-4" aria-label="Page navigation sample">
+        {% if page_obj.has_other_pages %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.previous_page_number }}">Prev</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
 
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Prev</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                </li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                {% endif %}
+
+
+            </ul>
+        {% endif %}
+
+    </nav>
+</div>
 </body>
 </html>
