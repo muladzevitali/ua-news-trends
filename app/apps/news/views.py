@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.views.generic import ListView
 
 from .models import News
@@ -19,3 +20,7 @@ class NewsListView(ListView):
             query_set = query_set.filter(category=self.request.GET.get('category'))
 
         return query_set
+
+
+def health_check(request):
+    return JsonResponse(dict(status='ok'))

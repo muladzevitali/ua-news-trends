@@ -17,7 +17,7 @@
             Filter
         </button>
         <div class="dropdown-menu">
-             <div class="dropdown-header">Trending</div>
+            <div class="dropdown-header">Trending</div>
             <a class="dropdown-item" href="?is_trending=0">All</a>
             <a class="dropdown-item" href="?is_trending=1">Trending</a>
             <div class="dropdown-header">Categories</div>
@@ -53,6 +53,11 @@
                 <h2 class="mb-2 font-weight-600">
                     <a href="{{ news.url }}">{{ news.title }}</a>
                 </h2>
+                {% if news.is_trending %}
+                    <h2 class="mb-2 font-weight-200">
+                        Trended for: {{ news.trended_query|capfirst }}
+                    </h2>
+                {% endif %}
                 <div class="fs-13 mb-2">
                     <span class="mr-2">{{ news.published_at }} </span>
                 </div>

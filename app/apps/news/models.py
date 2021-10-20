@@ -19,6 +19,7 @@ class GoogleTrend(models.Model):
         news_list = News.objects.filter(title__iregex=instance.title.lower())
         for news in news_list:
             news.is_trending = True
+            news.trended_query = instance.title
             news.save()
 
     def __str__(self):
@@ -32,18 +33,21 @@ class News(models.Model):
     category = models.CharField(max_length=100, null=True)
     is_trending = models.BooleanField(default=False)
     image_url = models.URLField(null=True)
+    trended_query = models.CharField(max_length=1000, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     @staticmethod
     def sync_trending_status(sender, instance: 'News', **kwargs):
-        trended_from = datetime.now().date() - timedelta(days=7)
+        trended_from = datetime.now().date() - timedelta(days=8)
         if instance.is_trending:
             return
 
-        if GoogleTrend.objects.filter(title__iregex=instance.title.lower(), trended_at__gte=trended_from).count():
+        trended_news = GoogleTrend.objects.filter(title__iregex=instance.title.lower(), trended_at__gte=trended_from)
+        if trended_news.count():
             instance.is_trending = True
+            instance.trended_query = trended_news.first().title
             instance.save()
 
     def __str__(self):

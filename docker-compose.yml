@@ -15,10 +15,9 @@ services:
   app:
     <<: *base-app
     container_name: ua_app
-    volumes:
-      - ./app/media:/app/media
+    entrypoint: ['/app-entrypoint.sh']
     healthcheck:
-      test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/}"
+      test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/check_health/}"
       interval: "60s"
       timeout: "3s"
       retries: 3
@@ -28,10 +27,8 @@ services:
   worker:
     <<: *base-app
     container_name: ua_celery
-    command: celery -A config worker -B -S django -l "${CELERY_LOG_LEVEL:-info}"
-    entrypoint: [ ]
-    depends_on:
-      - app
+    entrypoint: [ '/celery-entrypoint.sh']
+
 
   postgres:
     image: postgres:13-alpine
@@ -46,6 +43,8 @@ services:
   redis:
     build: ./redis
     container_name: ua_redis
+    logging:
+      driver: none
     volumes:
       - ./redis/backup:/data
     ports:
