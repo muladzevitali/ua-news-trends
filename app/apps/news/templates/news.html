@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>News</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    {% for news in news_list %}
+        <div class="row border" style="margin-top: 2%; padding: 1%">
+            <div class="col-sm-4">
+                <div class="position-relative">
+                    <div class="rotate-img">
+                        <img src="{{ news.image_url }}" alt="thumb" class="img-fluid">
+                    </div>
+                    <div class="badge-positioned">
+                        <span class="badge badge-danger font-weight-bold">{{ news.category }}</span>
+                    </div>
+                    {% if news.is_trending %}
+                        <div class="badge-positioned">
+                            <span class="badge badge-success font-weight-bold">Trending</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <h2 class="mb-2 font-weight-600">
+                    <a href="{{ news.url }}">{{ news.title }}</a>
+                </h2>
+                <div class="fs-13 mb-2">
+                    <span class="mr-2">{{ news.published_at }} </span>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
