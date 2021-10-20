@@ -28,6 +28,8 @@ services:
     <<: *base-app
     container_name: ua_celery
     entrypoint: [ '/celery-entrypoint.sh']
+    logging:
+      driver: none
 
 
   postgres:
